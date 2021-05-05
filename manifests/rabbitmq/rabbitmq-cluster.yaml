@@ -1,0 +1,29 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: rabbitmq-dev
+
+---
+apiVersion: rabbitmq.com/v1beta1
+kind: RabbitmqCluster
+metadata:
+  namespace: rabbitmq-dev
+  name: rabbitmq-cluster
+spec:
+  replicas: 3
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 300m
+      memory: 768Mi
+  rabbitmq:
+    additionalConfig: |
+      log.console.level = info
+      default_user = guest
+      default_pass = guest
+      default_user_tags.administrator = true
+  service:
+    type: LoadBalancer
